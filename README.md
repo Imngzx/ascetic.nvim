@@ -35,7 +35,6 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 # Configuration
 `ascetic.nvim` comes with sane defaults. Here is the default configuration
 
-
 ```lua
 require("ascetic").setup({
   -- Enable or disable the plugin
