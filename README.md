@@ -32,6 +32,11 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 }
 ```
 
+Using `vim.pack`
+```lua
+vim.pack.add('https://github.com/Imngzx/ascetic.nvim')
+```
+
 # Configuration
 `ascetic.nvim` comes with sane defaults. Here is the default configuration
 
@@ -53,3 +58,11 @@ require("ascetic").setup({
   smart_j_k = false, 
 })
 ```
+
+Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98) 
+## 🤝 Requirements
+- Neovim >= 0.11.4 
+
+## License
+
+This project is licensed under the MIT License.
