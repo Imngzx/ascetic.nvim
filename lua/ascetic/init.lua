@@ -4,6 +4,8 @@
 ---@field timeout? integer
 ---@field keys? string[]
 ---@field smart_j_k? boolean
+---@field message? string | fun(key: string): string
+---@field notify? fun(msg: string)
 
 local M = {}
 
@@ -14,6 +16,13 @@ local default_config = {
   timeout = 2000,
   keys = { 'h', 'j', 'k', 'l', '+', '-' },
   smart_j_k = false,
+  message = 'Hold it! Use Enter, Flash or motion keys (w, b, e) instead. Stop spamming `%s`!',
+  notify = function(msg)
+    pcall(vim.notify, msg, vim.log.levels.WARN, {
+      title = 'Ascetic',
+      id = 'ascetic_spam_blocker',
+    })
+  end,
 }
 
 local config = vim.deepcopy(default_config)
@@ -30,11 +39,11 @@ function M.setup(opts)
   for _, key in ipairs(config.keys) do
     states[key] = { count = 0, last_time = 0 }
 
-    vim.keymap.set('n', key, function()
+    vim.keymap.set({ 'n', 'x' }, key, function()
       local exec_key = key
-      if config.smart_j_k then
-        if key == 'j' then exec_key = 'gj' end
-        if key == 'k' then exec_key = 'gk' end
+
+      if config.smart_j_k and (key == 'j' or key == 'k') and vim.v.count == 0 then
+        exec_key = 'g' .. key
       end
 
       if vim.v.count > 0 then
@@ -57,10 +66,20 @@ function M.setup(opts)
       state.count = state.count + 1
 
       if state.count >= config.threshold then
-        pcall(vim.notify, 'Hold it! Use Enter, Flash or motion keys (w, b, e) instead.', vim.log.levels.WARN, {
-          title = 'Ascetic',
-          id = 'ascetic_spam_blocker',
-        })
+        local msg_cfg = config.message
+        local msg = ""
+
+        if type(msg_cfg) == 'function' then
+          msg = msg_cfg(key)
+        else
+          ---@cast msg_cfg string
+          msg = string.format(msg_cfg, key)
+        end
+
+        if type(config.notify) == 'function' then
+          config.notify(msg)
+        end
+
         return ''
       end
 
