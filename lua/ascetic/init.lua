@@ -16,7 +16,7 @@ local default_config = {
   timeout = 2000,
   keys = { 'h', 'j', 'k', 'l', '+', '-' },
   smart_j_k = false,
-  message = 'Hold it! Use Enter, Flash or motion keys (w, b, e) instead. Stop spamming `%s`!',
+  message = 'Hold it! Use Flash or motion keys (w, b, e) instead. Stop spamming `%s`!',
   notify = function(msg)
     pcall(vim.notify, msg, vim.log.levels.WARN, {
       title = 'Ascetic',
