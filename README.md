@@ -17,6 +17,8 @@ Embrace the ascetic lifestyle. Become a better Vimmer.
 - 🔄 **Smart Wrap (`gj`/`gk`)**: Built-in support to seamlessly remap `j`/`k` to `gj`/`gk` for wrapped lines.
 - 💡 **Lazydev Ready**: Fully typed with LuaCATS. Enjoy perfect autocomplete and type checking for your `opts`.
 
+![Preview Video](https://github.com/user-attachments/assets/51f33233-2902-420b-a795-9b7309632d86)
+
 ## 📦 Installation
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
