@@ -56,12 +56,70 @@ require("ascetic").setup({
   
   -- If true, 'j' and 'k' will behave as 'gj' and 'gk' (respecting line wrap)
   smart_j_k = false, 
+
+  -- The warning message. `%s` will be replaced by the blocked key.
+  -- Can be a string or a callback function: `fun(key: string): string`
+  message = 'Hold it! Use Enter, Flash or motion keys (w, b, e) instead. Stop spamming `%s`!',
+
+  -- The function used to display the warning.
+  -- Default uses `vim.notify` with an ID to prevent spamming the screen.
+  notify = function(msg)
+    pcall(vim.notify, msg, vim.log.levels.WARN, {
+      title = 'Ascetic',
+      id = 'ascetic_spam_blocker',
+    })
+  end,
 })
 ```
 
-Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98) 
+## 🎨 Notification Recipes
+
+Because the UI is completely decoupled, you can easily customize how warnings are displayed. Here are a few popular setups:
+
+### 1. 🍿 Snacks.nvim Integration
+If you are using the popular [Snacks.nvim](https://github.com/folke/snacks.nvim) notifier:
+```lua
+opts = {
+  message = "Stop spamming `%s`! Practice discipline.",
+  notify = function(msg)
+    Snacks.notifier.notify(msg, "warn", { 
+      title = "Ascetic", 
+      id = "ascetic_spam" 
+    })
+  end,
+}
+```
+
+### 2. 🥷 Minimalist Native Mode (No popups)
+If you hate popups and just want a discreet red message in your command line:
+```lua
+opts = {
+  message = "Stop spamming `%s`!",
+  notify = function(msg)
+    -- Uses raw nvim_echo. Bypasses notify plugins and leaves no trace.
+    vim.api.nvim_echo({{ "[Ascetic] " .. msg, "WarningMsg" }}, false, {})
+  end,
+}
+```
+
+### 3. 🤡 Custom Dynamic Message
+You can pass a function to `message` to return dynamic strings:
+```lua
+opts = {
+  message = function(key)
+    local insults = {
+      j = "Down down down... use `C-d` bro!",
+      k = "Up up up... use `C-u` instead!",
+    }
+    return insults[key] or ("Stop pressing `%s`!"):format(key)
+  end,
+}
+```
+
 ## 🤝 Requirements
-- Neovim >= 0.11.4 
+- Neovim >= 0.11.4 (Fully compatible with 0.12/0.13 nightly)
+
+Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98) 
 
 ## License
 
