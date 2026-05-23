@@ -118,6 +118,19 @@ opts = {
 }
 ```
 
+## ⌨️ Commands & API
+
+Need to record a macro or do some repetitive work? You can easily toggle the plugin on the fly using Neovim commands:
+
+- `:AsceticToggle` - Toggles the plugin on/off.
+- `:AsceticEnable` - Enables the plugin.
+- `:AsceticDisable` - Disables the plugin.
+
+You can also map these to a keybind using the exposed Lua API:
+```lua
+vim.keymap.set("n", "<leader>ta", require("ascetic").toggle, { desc = "Toggle Ascetic" })
+```
+
 ## 🤝 Requirements
 - Neovim >= 0.11.4 (Fully compatible with 0.12/0.13 nightly)
 
