@@ -27,11 +27,38 @@ local default_config = {
 
 local config = vim.deepcopy(default_config)
 
+--- enable
+function M.enable()
+  config.enabled = true
+  if type(config.notify) == 'function' then
+    config.notify("🧘 Ascetic mode: Enabled")
+  end
+end
+
+--- disable
+function M.disable()
+  config.enabled = false
+  if type(config.notify) == 'function' then
+    config.notify("🍺 Ascetic mode: Disabled")
+  end
+end
+
+--- toggle
+function M.toggle()
+  if config.enabled then
+    M.disable()
+  else
+    M.enable()
+  end
+end
+
 ---@param opts? AsceticConfig
 function M.setup(opts)
   config = vim.tbl_deep_extend('force', config, opts or {})
 
-  if not config.enabled then return end
+  vim.api.nvim_create_user_command('AsceticEnable', M.enable, { desc = 'Enable ascetic.nvim' })
+  vim.api.nvim_create_user_command('AsceticDisable', M.disable, { desc = 'Disable ascetic.nvim' })
+  vim.api.nvim_create_user_command('AsceticToggle', M.toggle, { desc = 'Toggle ascetic.nvim' })
 
   local now = vim.uv.now
   local states = {}
@@ -41,9 +68,12 @@ function M.setup(opts)
 
     vim.keymap.set({ 'n', 'x' }, key, function()
       local exec_key = key
-
       if config.smart_j_k and (key == 'j' or key == 'k') and vim.v.count == 0 then
         exec_key = 'g' .. key
+      end
+
+      if not config.enabled then
+        return exec_key
       end
 
       if vim.v.count > 0 then
@@ -79,7 +109,6 @@ function M.setup(opts)
         if type(config.notify) == 'function' then
           config.notify(msg)
         end
-
         return ''
       end
 
