@@ -24,9 +24,7 @@ local default_config = {
     })
   end,
 }
-
 local config = vim.deepcopy(default_config)
-
 --- enable
 function M.enable()
   config.enabled = true
@@ -59,59 +57,46 @@ function M.setup(opts)
   vim.api.nvim_create_user_command('AsceticEnable', M.enable, { desc = 'Enable ascetic.nvim' })
   vim.api.nvim_create_user_command('AsceticDisable', M.disable, { desc = 'Disable ascetic.nvim' })
   vim.api.nvim_create_user_command('AsceticToggle', M.toggle, { desc = 'Toggle ascetic.nvim' })
-
   local now = vim.uv.now
   local states = {}
-
   for _, key in ipairs(config.keys) do
     states[key] = { count = 0, last_time = 0 }
-
     vim.keymap.set({ 'n', 'x' }, key, function()
       local exec_key = key
       if config.smart_j_k and (key == 'j' or key == 'k') and vim.v.count == 0 then
         exec_key = 'g' .. key
       end
-
       if not config.enabled then
         return exec_key
       end
-
       if vim.v.count > 0 then
         states[key].count = 0
         return exec_key
       end
-
       if vim.bo.buftype ~= '' then
         return exec_key
       end
-
       local current_time = now()
       local state = states[key]
-
       if current_time - state.last_time > config.timeout then
         state.count = 0
       end
-
       state.last_time = current_time
       state.count = state.count + 1
-
       if state.count >= config.threshold then
         local msg_cfg = config.message
         local msg = ""
-
         if type(msg_cfg) == 'function' then
           msg = msg_cfg(key)
         else
           ---@cast msg_cfg string
           msg = string.format(msg_cfg, key)
         end
-
         if type(config.notify) == 'function' then
           config.notify(msg)
         end
         return ''
       end
-
       return exec_key
     end, { expr = true, silent = true, desc = 'Ascetic motion ' .. key })
   end
