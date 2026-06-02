@@ -25,6 +25,7 @@ local default_config = {
   end,
 }
 local config = vim.deepcopy(default_config)
+
 --- enable
 function M.enable()
   config.enabled = true
@@ -53,7 +54,6 @@ end
 ---@param opts? AsceticConfig
 function M.setup(opts)
   config = vim.tbl_deep_extend('force', config, opts or {})
-
   vim.api.nvim_create_user_command('AsceticEnable', M.enable, { desc = 'Enable ascetic.nvim' })
   vim.api.nvim_create_user_command('AsceticDisable', M.disable, { desc = 'Disable ascetic.nvim' })
   vim.api.nvim_create_user_command('AsceticToggle', M.toggle, { desc = 'Toggle ascetic.nvim' })
