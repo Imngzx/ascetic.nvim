@@ -2,7 +2,7 @@
 
 > Stop spamming `j` and `k`. Practice Neovim discipline.
 
-Are you addicted to holding `j` and `k` to scroll through your files? **ascetic.nvim** is a minimalist, highly-optimized Neovim plugin designed to break your bad habits. 
+Are you addicted to holding `j` and `k` to scroll through your files? **ascetic.nvim** is a minimalist, highly-optimized Neovim plugin designed to break your bad habits.
 
 If you spam basic movement keys (`h`, `j`, `k`, `l`) too many times in a short window, it will block your movement and kindly remind you to use proper Neovim motions (like `w`, `b`, `e`, `}`, or plugins like `flash.nvim`).
 
@@ -11,7 +11,7 @@ Embrace the ascetic lifestyle. Become a better Vimmer.
 ## ✨ Features
 
 - 🚀 **Blazing Fast**: Uses `libuv` (`vim.uv.now()`) for zero-overhead, microsecond-level time tracking.
-- 🧠 **Smart Context**: 
+- 🧠 **Smart Context**:
   - Allows count prefixes (e.g., `15j` works perfectly and resets the penalty counter).
   - Automatically disables itself in special buffers (terminals, floating windows, UI pickers).
 - 🔄 **Smart Wrap (`gj`/`gk`)**: Built-in support to seamlessly remap `j`/`k` to `gj`/`gk` for wrapped lines.
@@ -35,11 +35,13 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```
 
 Using `vim.pack`
+
 ```lua
 vim.pack.add('https://github.com/Imngzx/ascetic.nvim')
 ```
 
 # Configuration
+
 `ascetic.nvim` comes with sane defaults. Here is the default configuration
 
 ```lua
@@ -79,7 +81,9 @@ require("ascetic").setup({
 Because the UI is completely decoupled, you can easily customize how warnings are displayed. Here are a few popular setups:
 
 ### 1. 🍿 Snacks.nvim Integration
+
 If you are using the popular [Snacks.nvim](https://github.com/folke/snacks.nvim) notifier:
+
 ```lua
 opts = {
   message = "Stop spamming `%s`! Practice discipline.",
@@ -93,7 +97,9 @@ opts = {
 ```
 
 ### 2. 🥷 Minimalist Native Mode (No popups)
+
 If you hate popups and just want a discreet red message in your command line:
+
 ```lua
 opts = {
   message = "Stop spamming `%s`!",
@@ -105,7 +111,9 @@ opts = {
 ```
 
 ### 3. 🤡 Custom Dynamic Message
+
 You can pass a function to `message` to return dynamic strings:
+
 ```lua
 opts = {
   message = function(key)
@@ -127,14 +135,16 @@ Need to record a macro or do some repetitive work? You can easily toggle the plu
 - `:AsceticDisable` - Disables the plugin.
 
 You can also map these to a keybind using the exposed Lua API:
+
 ```lua
 vim.keymap.set("n", "<leader>ta", require("ascetic").toggle, { desc = "Toggle Ascetic" })
 ```
 
 ## 🤝 Requirements
+
 - Neovim >= 0.11.4 (Fully compatible with 0.12/0.13 nightly)
 
-Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98) 
+Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98)
 
 ## License
 
