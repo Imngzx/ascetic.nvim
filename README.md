@@ -34,13 +34,30 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 }
 ```
 
+Using [resonance.nvim](https://github.com/Imngzx/ascetic.nvim)
+
+```lua
+require('resonance').load({
+  {
+    'https://github.com/Imngzx/ascetic.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
+    config = function()
+      require('ascetic').setup({
+        -- your configuration comes here
+      })
+    end
+  }
+})
+
+```
+
 Using `vim.pack`
 
 ```lua
 vim.pack.add('https://github.com/Imngzx/ascetic.nvim')
 ```
 
-# Configuration
+## Configuration
 
 `ascetic.nvim` comes with sane defaults. Here is the default configuration
 
@@ -76,11 +93,11 @@ require("ascetic").setup({
 })
 ```
 
-## 🎨 Notification Recipes
+### 🎨 Notification Recipes
 
 Because the UI is completely decoupled, you can easily customize how warnings are displayed. Here are a few popular setups:
 
-### 1. 🍿 Snacks.nvim Integration
+#### 1. 🍿 Snacks.nvim Integration
 
 If you are using the popular [Snacks.nvim](https://github.com/folke/snacks.nvim) notifier:
 
@@ -96,7 +113,7 @@ opts = {
 }
 ```
 
-### 2. 🥷 Minimalist Native Mode (No popups)
+#### 2. 🥷 Minimalist Native Mode (No popups)
 
 If you hate popups and just want a discreet red message in your command line:
 
@@ -110,7 +127,7 @@ opts = {
 }
 ```
 
-### 3. 🤡 Custom Dynamic Message
+#### 3. 🤡 Custom Dynamic Message
 
 You can pass a function to `message` to return dynamic strings:
 
@@ -126,7 +143,7 @@ opts = {
 }
 ```
 
-## ⌨️ Commands & API
+### ⌨️ Commands & API
 
 Need to record a macro or do some repetitive work? You can easily toggle the plugin on the fly using Neovim commands:
 
@@ -140,12 +157,12 @@ You can also map these to a keybind using the exposed Lua API:
 vim.keymap.set("n", "<leader>ta", require("ascetic").toggle, { desc = "Toggle Ascetic" })
 ```
 
-## 🤝 Requirements
+### 🤝 Requirements
 
 - Neovim >= 0.11.4 (Fully compatible with 0.12/0.13 nightly)
 
 Here's my [configuration](https://github.com/Imngzx/nvim-config-rice-.ver-/blob/nvim-native/lua/plugins/tool.lua#L98)
 
-## License
+### License
 
 This project is licensed under the MIT License.
