@@ -21,7 +21,6 @@ local nvim_create_user_command = api.nvim_create_user_command
 local nvim_get_vvar = api.nvim_get_vvar
 local nvim_get_option_value = api.nvim_get_option_value
 local keymap_set = vim.keymap.set
-local vim_notify = vim.notify
 local vim_deepcopy = vim.deepcopy
 
 ---@type AsceticConfig
@@ -33,7 +32,9 @@ local default_config = {
   smart_j_k = false,
   message = 'Hold it! Use Flash or motion keys (w, b, e) instead. Stop spamming `%s`!',
   notify = function(msg)
-    pcall(vim_notify, msg, 3, {
+    -- Resolve vim.notify at call time: a notifier plugin may replace it
+    -- after this module is loaded.
+    pcall(vim.notify, msg, 3, {
       title = 'Ascetic',
       id = 'ascetic_spam_blocker',
     })
